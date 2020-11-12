@@ -12,6 +12,7 @@ Concepts introduced:
 - Defining project name and languages with the CMake `project` command
 - Setting variables using the CMake `set` command
 - Setting the C++ language standard with the CMake `CMAKE_CXX_STANDARD` variable
+- Defining an executable with the CMake `add_executable` command
 
 Discussion points:
 
@@ -50,4 +51,14 @@ Concepts introduced:
 - Dereferencing CMake variables using the CMake `${var_name}` syntax
 
 
-## [Checkpoint 1](./checkpoint_1)
+## [Checkpoint 2](./checkpoint_2)
+
+This checkpoint separates the functionality from the executable by creating a library, that will be built and linked with the executable.
+There are now three `CMakeLists.txt` files: one in the top level directory, one in `src` and one in `exe`.
+
+Concepts introduced:
+
+- Defining a library with the CMake `add_library` command
+- Specifying the library's include directories with the CMake `target_include_directories` command
+- Identifying the current directory during project generation with the `CMAKE_CURRENT_SOURCE_DIR` variable
+- Specifying a library to link using the CMake `target_link_libraries` command
