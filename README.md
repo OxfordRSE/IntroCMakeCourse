@@ -62,3 +62,21 @@ Concepts introduced:
 - Specifying the library's include directories with the CMake `target_include_directories` command
 - Identifying the current directory during project generation with the `CMAKE_CURRENT_SOURCE_DIR` variable
 - Specifying a library to link using the CMake `target_link_libraries` command
+
+
+## [Checkpoint 3](./checkpoint_3)
+
+This checkpoint adds a project dependency: Eigen.
+The library `cmake_course_lib` now requires linear algebra functionality, and we use CMake to find Eigen.
+
+Concepts introduced:
+
+- Finding a dependency in "config mode" using the CMake `find_package` command
+- Printing information using the CMake `message` command
+
+Discussion points:
+
+- In "config mode", `find_pacakge` will search for a `<PackageName>Config.cmake` file, provided by the library vendor,
+ that specifies all information necessary to use the library.
+
+
