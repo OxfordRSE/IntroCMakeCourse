@@ -80,3 +80,18 @@ Discussion points:
  that specifies all information necessary to use the library.
 
 
+## [Checkpoint 4](./checkpoint_4)
+
+This checkpoint adds a project dependency: Boost.
+The executable `main_executable` now requires boost program options, which we find with CMake.
+
+Concepts introduced:
+
+- Finding a dependency in "module mode" using the CMake `find_package` command
+
+Discussion points:
+
+- In "module mode", `find_pacakge` will execute instructions in a `Find<PackageName>.cmake` file.
+ For a number of common libraries, this file is [provided with CMake](https://cmake.org/cmake/help/latest/module/FindBoost.html),
+ but can also be written as required.
+
