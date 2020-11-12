@@ -12,3 +12,25 @@ Concepts introduced:
 - Defining project name and languages with the CMake `project` command
 - Setting variables using the CMake `set` command
 - Setting the C++ language standard with the CMake `CMAKE_CXX_STANDARD` variable
+
+Discussion points:
+
+- Basic configure-build-run cycle:
+  ```bash
+  mkdir build && cd build
+  cmake ..
+  make main_executable
+  ./main_executable
+  ```
+- Choosing a generator:
+  ```bash
+  cmake -G Ninja ..
+  ```
+- Build uniformly regardless of generator:
+  ```bash
+  cmake --build . --target main_executable
+  ```
+- Configure to compile in Release mode:
+  ```bash
+  cmake -DCMAKE_BUILD_TYPE=Release ..
+  ```
