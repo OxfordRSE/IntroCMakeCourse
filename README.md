@@ -34,3 +34,20 @@ Discussion points:
   ```bash
   cmake -DCMAKE_BUILD_TYPE=Release ..
   ```
+
+
+## [Checkpoint 1](./checkpoint_1)
+
+This checkpoint contains two `CMakeLists.txt` files, one in the top level directory and one in the subdirectory `src`.
+There are now there source files: `main.cpp`, and two files `functionality.hpp` and `functionality.cpp`.
+These provide a method called in `main.cpp`.
+
+Concepts introduced:
+
+- Including a `CMakeLists.txt` in a subdirectory using the CMake `add_subdirectory` command
+- Add modularity to a CMake project by defining logic only in relevant directories
+- Setting lists of variables using the CMake `set` command
+- Dereferencing CMake variables using the CMake `${var_name}` syntax
+
+
+## [Checkpoint 1](./checkpoint_1)
