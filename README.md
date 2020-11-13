@@ -2,7 +2,13 @@
 
 An introductory course in CMake from Oxford RSE.
 
-## [Checkpoint 0](./checkpoint_0)
+## Course structure
+
+The course is broken into a number of checkpoints.
+The course leader will introduce a number of new topics, and participants will then have time to implement new functionality.
+
+
+### [Checkpoint 0](./checkpoint_0)
 
 This checkpoint contains a single `CMakeLists.txt` file and a single `main.cpp` file.
 
@@ -37,7 +43,7 @@ Discussion points:
   ```
 
 
-## [Checkpoint 1](./checkpoint_1)
+### [Checkpoint 1](./checkpoint_1)
 
 This checkpoint contains two `CMakeLists.txt` files, one in the top level directory and one in the subdirectory `src`.
 There are now there source files: `main.cpp`, and two files `functionality.hpp` and `functionality.cpp`.
@@ -51,7 +57,7 @@ Concepts introduced:
 - Dereferencing CMake variables using the CMake `${var_name}` syntax
 
 
-## [Checkpoint 2](./checkpoint_2)
+### [Checkpoint 2](./checkpoint_2)
 
 This checkpoint separates the functionality from the executable by creating a library, that will be built and linked with the executable.
 There are now three `CMakeLists.txt` files: one in the top level directory, one in `src` and one in `exe`.
@@ -64,7 +70,7 @@ Concepts introduced:
 - Specifying a library to link using the CMake `target_link_libraries` command
 
 
-## [Checkpoint 3](./checkpoint_3)
+### [Checkpoint 3](./checkpoint_3)
 
 This checkpoint adds a project dependency: Eigen.
 The library `cmake_course_lib` now requires linear algebra functionality, and we use CMake to find Eigen.
@@ -80,7 +86,7 @@ Discussion points:
  that specifies all information necessary to use the library.
 
 
-## [Checkpoint 4](./checkpoint_4)
+### [Checkpoint 4](./checkpoint_4)
 
 This checkpoint adds a project dependency: Boost.
 The executable `main_executable` now requires boost program options, which we find with CMake.
@@ -96,7 +102,7 @@ Discussion points:
  but can also be written as required.
 
 
-## [Checkpoint 5](./checkpoint_5)
+### [Checkpoint 5](./checkpoint_5)
 
 This checkpoint adds a configurable list of compiler warnings.
 
@@ -115,3 +121,20 @@ Discussion points:
   ```bash
   cmake -DWARNINGS_AS_ERRORS=FALSE ..
   ```
+
+## Slides
+
+The slideshow can be built if you have [Pandoc](https://pandoc.org/) installed:
+
+```bash
+sudo apt install pandoc
+```
+
+Build the slides:
+
+```bash
+cd slides
+mkdir build && cd build
+cmake ..
+make slides
+```
