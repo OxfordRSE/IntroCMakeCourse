@@ -95,3 +95,23 @@ Discussion points:
  For a number of common libraries, this file is [provided with CMake](https://cmake.org/cmake/help/latest/module/FindBoost.html),
  but can also be written as required.
 
+
+## [Checkpoint 5](./checkpoint_5)
+
+This checkpoint adds a configurable list of compiler warnings.
+
+Concepts introduced:
+
+- Including additional CMake functionality using the CMake `include` command
+- Creating an interface "library" just for the purpose of applying options to other targets
+- Defining a function using the CMake `function` keyword
+- Defining a configure-time option using the CMake `option` command
+- Using conditionals with the CMake `if`, `else` and `elseif` keywords
+- Identifying the compiler using the CMake `CMAKE_CXX_COMPILER_ID` variable
+
+Discussion points:
+
+- Specifying options at configure-time:
+  ```bash
+  cmake -DWARNINGS_AS_ERRORS=FALSE ..
+  ```
