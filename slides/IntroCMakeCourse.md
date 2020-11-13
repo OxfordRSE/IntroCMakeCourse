@@ -91,6 +91,17 @@ Checkpoint 0
 Hello, World!
 ```
 
+# Choosing a generator
+
+CMake can create more than Makefiles. It can generate IDE projects, or build descriptions for the fast Ninja tool.
+
+```
+build$ cmake -G Ninja ..
+[...]
+
+build$ ninja
+[2/2] Linking CXX executable main_executable
+```
 # Setting configuration
 
 You (and users) can override choices made by CMake using the `-D` argument.
