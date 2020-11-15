@@ -7,6 +7,75 @@
 
 Some words here
 
+## Target properties
+
+CMake allows for a very fine-grained control of target builds, through 
+*properties*.
+
+For example, the property `INCLUDE_DIRECTORIES` specifies the list of
+directories to be specified with the compiler switch `-I` (or `/I`).
+
+Properties can be set manually like variables, but in general CMake provides
+commands for it:
+
+    target_include_directories(main_executable PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
+The above sets the target's `executable`'s `INCLUDE_DIRECTORIES` property to
+the value of the variable `CMAKE_CURRENT_SOURCE_DIR`.
+
+*Properties are different from variables!*
+
+
+## Creating a library
+
+Similar to `add_executable()`:
+
+    add_library(my_lib STATIC ${source_files})
+
+
+## Linking libraries
+
+Library dependencies can be declared using the `target_link_libraries()` command:
+
+    target_link_libraries(another_lib PRIVATE my_lib)
+
+The `PRIVATE` keyword states that `another_lib` uses `my_lib` in its internal
+implementation. Programs using `another_lib` don't need to know about `my_lib`.
+
+
+## Linking libraries
+
+Another dependency situation:
+
+-   `another_lib` uses `my_lib` in its internal implementation.
+-   `another_lib` defines some function that take parameters of a type defined
+    in `my_lib`.
+
+Programs using `another_lib` also must link against `my_lib`:
+
+    target_link_libraries(another_lib PUBLIC my_lib)
+
+Keyword `INTERFACE`: `my_lib` only uses `~my_lib` in its interface,
+**not in its internal implementation**.
+
+
+## Behaviour of target properties across dependencies
+
+Many (**all?**) target properties are paired with another property
+`INTERFACE_<PROPERTY>`. For instance 
+
+    INTERFACE_INCLUDE_DIRECTORIES
+
+These properties are inherited by depending targets (such as
+executables and other libraries). 
+
+Example:
+
+    target_include_directories(cmake_course_lib INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+
+-   `PRIVATE`: sets `INCLUDE_DIRECTORIES`.
+-   `INTERFACE`: sets `INTERFACE_INCLUDE_DIRECTORIES`.
+-   `PUBLIC`: sets both.
 
 ## That's all, folks
 
