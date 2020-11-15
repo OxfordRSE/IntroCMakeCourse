@@ -55,7 +55,7 @@ Programs using `another_lib` also must link against `my_lib`:
 
     target_link_libraries(another_lib PUBLIC my_lib)
 
-Keyword `INTERFACE`: `my_lib` only uses `~my_lib` in its interface,
+Keyword `INTERFACE`: `my_lib` only uses `my_lib` in its interface,
 **not in its internal implementation**.
 
 
@@ -71,7 +71,7 @@ executables and other libraries).
 
 Example:
 
-    target_include_directories(cmake_course_lib INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+    target_include_directories(my_lib INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
 -   `PRIVATE`: sets `INCLUDE_DIRECTORIES`.
 -   `INTERFACE`: sets `INTERFACE_INCLUDE_DIRECTORIES`.
