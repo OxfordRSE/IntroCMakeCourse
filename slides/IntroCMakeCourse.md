@@ -76,11 +76,18 @@ and loops:
       message(${var})
     endforeach()
 
+## Checkpoint 1
+
+Our project has grown! In addition to the code in ~main.cpp~, some new functionality was added to new source files~functionality.cpp~ and ~functionality.hpp~.
+This code is now contained in a specific directory ~src/~, inside the project directory.
+
+Task: Write the file ~CMakeLists.txt~ in ~src/~ and modify the top level ~CMakeLists.txt~ so that directory ~src/~ is processed.
+
 ## That's all, folks
 
 This was only the tiniest tip of the modern CMake iceberg. There are so many great resources available, and here are just a few of them:
 
 - [The CMake documentation (link)](https://cmake.org/cmake/help/latest/)
 - [Professional CMake: A Practical Guide (link)](https://crascit.com/professional-cmake/)
-  
+
 Thank you for coming!
