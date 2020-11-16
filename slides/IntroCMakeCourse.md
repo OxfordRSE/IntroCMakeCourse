@@ -55,9 +55,17 @@ Programs using `another_lib` also must link against `my_lib`:
 
     target_link_libraries(another_lib PUBLIC my_lib)
 
-Keyword `INTERFACE`: `my_lib` only uses `my_lib` in its interface,
-**not in its internal implementation**.
 
+## Link libraries (`INTERFACE`)
+
+Picture another dependency scenario:
+
+- `my_lib` only uses `my_lib` in its interface.
+- **but not** in its internal implementation.
+
+```
+target_link_libraries(another_lib INTERFACE my_lib)
+```
 
 ## Behaviour of target properties across dependencies
 
