@@ -87,6 +87,23 @@ Example:
 -   `INTERFACE`: sets `INTERFACE_INCLUDE_DIRECTORIES`.
 -   `PUBLIC`: sets both.
 
+## Checkpoint 2
+
+Let's separate the funtionality from the executable itself:
+
+    CMakeLists.txt
+	src/
+      <library>
+	exe/
+	  <executable>
+Tasks:
+
+1. Modify `src/CMakeLists.txt` so that a static library is created out
+   of `functionality.cpp` and `functionality.hpp`.
+2. Move `main.cpp` into a new directory `exe`, and add a `CMakeLists.txt` defining a new
+   target that links against the library.
+3. Modify the top-level `CMakeLists.txt` so that it processes both directories.
+
 ## That's all, folks
 
 This was only the tiniest tip of the modern CMake iceberg. There are so many great resources available, and here are just a few of them:
