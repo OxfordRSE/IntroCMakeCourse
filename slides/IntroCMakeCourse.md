@@ -37,7 +37,7 @@ Let's look at the sample `CMakeLists.txt` line by line.
 # CMake has changed a lot
 
 ```
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.15)
 ```
 
 Tells CMake which version we used, affecting the features available and the interpretation of `CMakeLists.txt`
