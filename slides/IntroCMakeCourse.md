@@ -24,20 +24,20 @@ In top-level `CMakeLists.txt`:
 CMake processes file `CMakeLists.txt` in directory `src`.
 
 
-## Compartmentalize build logic
+## Compartmentalising build logic
 
-    # src1/CMakeLists.txt
+    # src/CMakeLists.txt
     set(
       src_source_files
       file1
       file2
       file3
       )
-    add_library(component1 ${src_source_files})
+    add_executable(executable ${src_source_files})
 
-Variables defined in callers are available in callee.
+Variables defined in callers are available in callee, but not the other way around,
 
-Using subdirectories enables modularity.
+Using subdirectories enables clear structure and modularity.
 
 
 ## Programming CMake
@@ -45,12 +45,18 @@ Using subdirectories enables modularity.
 Variables can hold lists:
 
     set( src_files main.cpp functionality.cpp functionality.hpp )
-    
+
 Variables can be dereferenced
 
-    message("src_files = ${src_files}")
-	
-    "src_files = main.cpp;functionality.cpp;functionality.hpp"
+    set(another_list ${src_files})
+
+The value of `another_list` is set the value of `src_files`.
+
+Nested example:
+
+    set(var files) # var = "files"
+    set(yet_another_list ${src_${var}}) # yet_another_list = "src_files"
+
 
 
 ## Programming CMake
