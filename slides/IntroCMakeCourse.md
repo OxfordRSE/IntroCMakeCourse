@@ -118,9 +118,9 @@ CMAKE_CXX_COMPILER= /usr/local/bin/g++-10
 [...]
 ```
 
-## Checkpoint 0
+# Checkpoint 0
 
-## Adding subdirectories
+# Adding subdirectories
 
     CMakeLists.txt/
     src/
@@ -136,7 +136,7 @@ In top-level `CMakeLists.txt`:
 CMake processes file `CMakeLists.txt` in directory `src`.
 
 
-## Compartmentalising build logic
+# Compartmentalising build logic
 
     # src/CMakeLists.txt
     set(
@@ -152,7 +152,7 @@ Variables defined in callers are available in callee, but not the other way arou
 Using subdirectories enables clear structure and modularity.
 
 
-## Programming CMake
+# Programming CMake
 
 Variables can hold lists:
 
@@ -171,7 +171,7 @@ Nested example:
 
 
 
-## Programming CMake
+# Programming CMake
 
 Conditionals...
 
@@ -188,7 +188,7 @@ and loops:
       message(${var})
     endforeach()
 
-## Checkpoint 1
+# Checkpoint 1
 
 Our project has grown! In addition to the code in ~main.cpp~, some new functionality was added to new source files~functionality.cpp~ and ~functionality.hpp~.
 
@@ -196,7 +196,7 @@ This code is now contained in a specific directory ~src/~, inside the project di
 
 **Task**: Write the file ~CMakeLists.txt~ in ~src/~ and modify the top level ~CMakeLists.txt~ so that directory ~src/~ is processed.
 
-## Target properties
+# Target properties
 
 CMake allows for a very fine-grained control of target builds, through
 *properties*.
@@ -215,7 +215,7 @@ commands for it:
 *Properties are different from variables!*
 
 
-## Creating a library
+# Creating a library
 
 Similar to `add_executable()`:
 
@@ -224,7 +224,7 @@ Similar to `add_executable()`:
 Use ~SHARED~ instead of ~STATIC~ to build a shared library.
 
 
-## Linking libraries (`PRIVATE`)
+# Linking libraries (`PRIVATE`)
 
 Library dependencies can be declared using the `target_link_libraries()` command:
 
@@ -234,7 +234,7 @@ The `PRIVATE` keyword states that `another_lib` uses `my_lib` in its internal
 implementation. Programs using `another_lib` don't need to know about `my_lib`.
 
 
-## Linking libraries (`PUBLIC`)
+# Linking libraries (`PUBLIC`)
 
 Picture another dependency scenario:
 
@@ -247,7 +247,7 @@ Programs using `another_lib` also must link against `my_lib`:
     target_link_libraries(another_lib PUBLIC my_lib)
 
 
-## Link libraries (`INTERFACE`)
+# Link libraries (`INTERFACE`)
 
 Picture another dependency scenario:
 
@@ -258,7 +258,7 @@ Picture another dependency scenario:
 target_link_libraries(another_lib INTERFACE my_lib)
 ```
 
-## Behaviour of target properties across dependencies
+# Behaviour of target properties across dependencies
 
 Many (**all?**) target properties are paired with another property
 `INTERFACE_<PROPERTY>`. For instance
@@ -276,7 +276,7 @@ Example:
 -   `INTERFACE`: sets `INTERFACE_INCLUDE_DIRECTORIES`.
 -   `PUBLIC`: sets both.
 
-## Checkpoint 2
+# Checkpoint 2
 
 Let's separate the funtionality from the executable itself:
 
@@ -293,7 +293,7 @@ Tasks:
    target that links against the library.
 3. Modify the top-level `CMakeLists.txt` so that it processes both directories.
 
-## Printing information with `message()`
+# Printing information with `message()`
 
     name = "Jane Doe"
     message(STATUS "Hello ${name}")
@@ -304,7 +304,7 @@ Tasks:
     -- Configuring done
     -- Generating done
 
-## Options for `message()`
+# Options for `message()`
 
 	message(STATUS "A simple message")
 
@@ -319,7 +319,7 @@ depending on the situation.
     -- Configuring incomplete, errors occurred!
 
 
-## Finding libraries
+# Finding libraries
 
 Libraries can be installed in various locations on your system.
 
@@ -332,7 +332,7 @@ The above defines a new target (usually named `library_name`) that can now be li
 against other targets using `target_link_libraries`.
 
 
-## "config" mode for `find_package`
+# "config" mode for `find_package`
 
     find_package(library_name CONFIG REQUIRED)
 
@@ -345,7 +345,7 @@ the library is installed).
 This is usually given by the library vendor.
 
 
-## Checkpoint 3
+# Checkpoint 3
 
 A new file `src/functionality_eigen.cpp` depends on the [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page) library for linear algebra.
 
@@ -356,7 +356,39 @@ link target `cmake_course_lib` against Eigen.
 
 *Note that keyword `NO_MODULE` is equivalent to `CONFIG`*
 
-## That's all, folks
+# "module" mode for `find_package`
+
+Libraries don't always come with a CMake config file
+`<PackageName>Config.cmake`. 
+
+CMake can also find the library based on a file `Find<PackageName>.cmake`.
+This behaviour corresponds to using `find_package` with the keyword `MODULE`:
+
+    find_package(library_name MODULE REQUIRED)
+
+Such *module files* are typically provided by CMake itself.
+
+They can also be written for a particular use case if required.
+
+# Package components
+
+Often libraries are split into different components.
+
+E.g. Boost: filesystem, thread, date-time, program-options, numpy...
+
+Most programs only rely on a subset of components
+
+    set(
+      boost_components
+      filesystem
+      chrono
+      )
+    find_package(Boost MODULE REQUIRED COMPONENTS ${boost_components})
+
+The CMake target for a component is `<PackageName>::<ComponentName>`
+(*e.g.* `Boost::filesystem`).
+
+# That's all, folks
 
 This was only the tiniest tip of the modern CMake iceberg. There are so many great resources available, and here are just a few of them:
 
