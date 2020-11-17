@@ -118,6 +118,38 @@ CMAKE_CXX_COMPILER= /usr/local/bin/g++-10
 [...]
 ```
 
+# "module" mode for `find_package`
+
+Libraries don't always come with a CMake config file
+`<PackageName>Config.cmake`. 
+
+CMake can also find the library based on a file `Find<PackageName>.cmake`.
+This behaviour corresponds to using `find_package` with the keyword `MODULE`:
+
+    find_package(library_name MODULE REQUIRED)
+
+Such *module files* are typically provided by CMake itself.
+
+They can also be written for a particular use case if required.
+
+# Package components
+
+Often libraries are split into different components.
+
+E.g. Boost: filesystem, thread, date-time, program-options, numpy...
+
+Most programs only rely on a subset of components
+
+    set(
+      boost_components
+      filesystem
+      chrono
+      )
+    find_package(Boost MODULE REQUIRED COMPONENTS ${boost_components})
+
+The CMake target for a component is `<PackageName>::<ComponentName>`
+(*e.g.* `Boost::filesystem`).
+
 # That's all, folks
 
 This was only the tiniest tip of the modern CMake iceberg. There are so many great resources available, and here are just a few of them:
