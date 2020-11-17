@@ -118,6 +118,81 @@ CMAKE_CXX_COMPILER= /usr/local/bin/g++-10
 [...]
 ```
 
+# Adding CMake functionality using `include`
+
+Any file containing valid CMake syntax can be "included" in the
+current `CMakeLists.txt`:
+
+    # CMakeLists.txt
+    cmake_minimum_required(VERSION 3.13)
+    project(IntroCMakeCourse LANGUAGES CXX)
+    include(to_include.cmake)
+    
+    set(name "Foo Bar")
+    message(STATUS "Hello ${name}")
+
+    # cmake/file_to_include.cmake
+    set(name "Jane Doe")
+    message(STATUS "Hello ${name}")
+
+    -- Hello Jane Doe
+    -- Hello Foo Bar
+    -- Configuring done
+    ...
+
+
+# Programming CMake: functions
+
+CMake allows the declaration of functions:
+
+    function(add a b)
+      math(EXPR result "{a}+{b}")
+      message("The sum is ${result}")
+    endfunction()
+
+Functions cannot return a value.
+
+Functions introduce a new scope.
+
+A similar notion is CMake *macros*, which does **not** introduce a new scope.
+
+
+# Setting options with `option()`
+
+Boolean variables can be declared using `option()`:
+
+    option(WARNINGS_AS_ERRORS "Treat compiler warnings as errors" TRUE)
+
+The value of options can be specified at the command line using the
+`-D` syntax:
+
+    cmake -DWARNINGS_AS_ERRORS=FALSE ..
+
+Options are a special case of "cache" variable, which value persist
+between CMake runs.
+
+
+# Built-in CMake variables
+
+CMake provides *a lot* of pre-defined variables which values describe the system.
+
+For instance, the value of `CMAKE_CXX_COMPILER_ID`' can be queried
+to determine which C++ compiler is used.
+
+    if(MSVC)
+        set(PROJECT_WARNINGS ${MSVC_WARNINGS})
+      elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+        set(PROJECT_WARNINGS ${CLANG_WARNINGS})
+      elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        set(PROJECT_WARNINGS ${GCC_WARNINGS})
+      else()
+        # ...
+
+
+# Using an interface "library" to apply options across targets
+
+TODO
+
 # That's all, folks
 
 This was only the tiniest tip of the modern CMake iceberg. There are so many great resources available, and here are just a few of them:
