@@ -86,7 +86,7 @@ CMake only generated the build script, it didn't actually compile anything.
 build$ make
 [...]
 [100%] Built target main_executable
-build$ ./main_executable 
+build$ ./main_executable
 Checkpoint 0
 Hello, World!
 ```
@@ -135,7 +135,6 @@ In top-level `CMakeLists.txt`:
 
 CMake processes file `CMakeLists.txt` in directory `src`.
 
-
 # Compartmentalising build logic
 
     # src/CMakeLists.txt
@@ -150,7 +149,6 @@ CMake processes file `CMakeLists.txt` in directory `src`.
 Variables defined in callers are available in callee, but not the other way around,
 
 Using subdirectories enables clear structure and modularity.
-
 
 # Programming CMake
 
@@ -168,8 +166,6 @@ Nested example:
 
     set(var files) # var = "files"
     set(yet_another_list ${src_${var}}) # yet_another_list = "src_files"
-
-
 
 # Programming CMake
 
@@ -223,7 +219,6 @@ Similar to `add_executable()`:
 
 Use ~SHARED~ instead of ~STATIC~ to build a shared library.
 
-
 # Linking libraries (`PRIVATE`)
 
 Library dependencies can be declared using the `target_link_libraries()` command:
@@ -232,7 +227,6 @@ Library dependencies can be declared using the `target_link_libraries()` command
 
 The `PRIVATE` keyword states that `another_lib` uses `my_lib` in its internal
 implementation. Programs using `another_lib` don't need to know about `my_lib`.
-
 
 # Linking libraries (`PUBLIC`)
 
@@ -245,7 +239,6 @@ Picture another dependency scenario:
 Programs using `another_lib` also must link against `my_lib`:
 
     target_link_libraries(another_lib PUBLIC my_lib)
-
 
 # Link libraries (`INTERFACE`)
 
@@ -331,7 +324,6 @@ where they are installed**:
 The above defines a new target (usually named `library_name`) that can now be linked
 against other targets using `target_link_libraries`.
 
-
 # "config" mode for `find_package`
 
     find_package(library_name CONFIG REQUIRED)
@@ -343,7 +335,6 @@ This file specifies all the information CMake needs (particularly where
 the library is installed).
 
 This is usually given by the library vendor.
-
 
 # Checkpoint 3
 
@@ -359,7 +350,7 @@ link target `cmake_course_lib` against Eigen.
 # "module" mode for `find_package`
 
 Libraries don't always come with a CMake config file
-`<PackageName>Config.cmake`. 
+`<PackageName>Config.cmake`.
 
 CMake can also find the library based on a file `Find<PackageName>.cmake`.
 This behaviour corresponds to using `find_package` with the keyword `MODULE`:
@@ -387,6 +378,78 @@ Most programs only rely on a subset of components
 
 The CMake target for a component is `<PackageName>::<ComponentName>`
 (*e.g.* `Boost::filesystem`).
+
+# Adding CMake functionality using `include`
+
+Any file containing valid CMake syntax can be "included" in the
+current `CMakeLists.txt`:
+
+    # CMakeLists.txt
+    cmake_minimum_required(VERSION 3.13)
+    project(IntroCMakeCourse LANGUAGES CXX)
+    include(to_include.cmake)
+
+    set(name "Foo Bar")
+    message(STATUS "Hello ${name}")
+
+    # cmake/file_to_include.cmake
+    set(name "Jane Doe")
+    message(STATUS "Hello ${name}")
+
+    -- Hello Jane Doe
+    -- Hello Foo Bar
+    -- Configuring done
+    ...
+
+# Programming CMake: functions
+
+CMake allows the declaration of functions:
+
+    function(add a b)
+      math(EXPR result "{a}+{b}")
+      message("The sum is ${result}")
+    endfunction()
+
+Functions cannot return a value.
+
+Functions introduce a new scope.
+
+A similar notion is CMake *macros*, which does **not** introduce a new scope.
+
+
+# Setting options with `option()`
+
+Boolean variables can be declared using `option()`:
+
+    option(WARNINGS_AS_ERRORS "Treat compiler warnings as errors" TRUE)
+
+The value of options can be specified at the command line using the
+`-D` syntax:
+
+    cmake -DWARNINGS_AS_ERRORS=FALSE ..
+
+Options are a special case of "cache" variable, which value persist
+between CMake runs.
+
+# Built-in CMake variables
+
+CMake provides *a lot* of pre-defined variables which values describe the system.
+
+For instance, the value of `CMAKE_CXX_COMPILER_ID`' can be queried
+to determine which C++ compiler is used.
+
+    if(MSVC)
+        set(PROJECT_WARNINGS ${MSVC_WARNINGS})
+      elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+        set(PROJECT_WARNINGS ${CLANG_WARNINGS})
+      elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        set(PROJECT_WARNINGS ${GCC_WARNINGS})
+      else()
+        # ...
+
+# Using an interface "library" to apply options across targets
+
+TODO
 
 # That's all, folks
 
