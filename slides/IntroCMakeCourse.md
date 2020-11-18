@@ -24,7 +24,7 @@ CMake works on Linux, Windows, macOS and more.
 
 Checkpoint 0 is a simple "hello, world" program written in C++. Let's use CMake to build it.
 
-```
+```bash
 $ cd checkpoint_0
 ```
 
@@ -36,7 +36,7 @@ Let's look at the sample `CMakeLists.txt` line by line.
 
 # CMake has changed a lot
 
-```
+```cmake
 cmake_minimum_required(VERSION 3.13)
 ```
 
@@ -44,7 +44,7 @@ Tells CMake which version we used, affecting the features available and the inte
 
 # Define a project
 
-```
+```cmake
 project(IntroCMakeCourse LANGUAGES CXX)
 ```
 
@@ -52,7 +52,7 @@ We have a project called `IntroCMakeCourse`, in the C++ language.
 
 # Configure the compiler
 
-```
+```cmake
 set(CMAKE_CXX_STANDARD 17)
 ```
 
@@ -60,7 +60,7 @@ We're using the C++17 language dialect.
 
 # Tell it what to build
 
-```
+```cmake
 add_executable(main_executable main.cpp)
 ```
 
@@ -70,19 +70,19 @@ There is a program, called `main_executable`, which depends on the source code i
 
 It's typical to build "out of tree", by running CMake in a separate place. Keeps generated files out of your source folder.
 
-```
+```bash
 checkpoint0$ mkdir build
 checkpoint0$ cd build
 build$ cmake ..
 [...]
--- Build files have been written to: /Users/gralee/OxfordRSE/IntroCMakeCourse/checkpoint_0/build
+-- Build files have been written to: <...>/checkpoint_0/build
 ```
 
 # Build your project
 
 CMake only generated the build script, it didn't actually compile anything.
 
-```
+```bash
 build$ make
 [...]
 [100%] Built target main_executable
@@ -91,22 +91,38 @@ Checkpoint 0
 Hello, World!
 ```
 
+# Breakout time
+
+Verify that we can all configure, compile and run the executable in Checkpoint 0.
+
 # Choosing a generator
 
 CMake can create more than Makefiles. It can generate IDE projects, or build descriptions for the fast Ninja tool.
 
-```
+```bash
 build$ cmake -G Ninja ..
 [...]
 
 build$ ninja
 [2/2] Linking CXX executable main_executable
 ```
+
+# Choosing a generator
+
+You can build uniformly, regardless of the generator:
+
+```bash
+build$ cmake -G Ninja ..
+build$ cmake --build . --target main_executable
+```
+
+This can be particularly useful in automated scripts that may be run on different systems using different generators.
+
 # Setting configuration
 
 You (and users) can override choices made by CMake using the `-D` argument.
 
-```
+```bash
 build$ cmake -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-10 ..
 -- Configuring done
 You have changed variables that require your cache to be deleted.
@@ -117,6 +133,30 @@ CMAKE_CXX_COMPILER= /usr/local/bin/g++-10
 -- The CXX compiler identification is GNU 10.2.0
 [...]
 ```
+
+# Setting configuration
+
+You can switch between Debug, Release, RelWithDebInfo and MinSizeRel, by default:
+
+```bash
+build$ cmake -DCMAKE_BUILD_TYPE=Release ..
+[...]
+```
+
+The default flags with `g++` are:
+
+```cmake
+CMAKE_CXX_FLAGS_DEBUG            -g
+CMAKE_CXX_FLAGS_MINSIZEREL       -Os -DNDEBUG
+CMAKE_CXX_FLAGS_RELEASE          -O3 -DNDEBUG
+CMAKE_CXX_FLAGS_RELWITHDEBINFO   -O2 -g -DNDEBUG
+```
+
+# Breakout time
+
+Try using the Ninja generator, compiling in Release mode, and using another compiler if you have one installed.
+
+Remember that you might have to clean your build directory when, e.g., changing generator.
 
 # Checkpoint 0
 

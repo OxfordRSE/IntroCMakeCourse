@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(IntroCMakeCourseSlides)
+project(IntroCMakeCourseSlides LANGUAGES NONE)
 
 # Target to compile the slideshow, which requires Pandoc and LaTeX
 find_program(PANDOC pandoc)
