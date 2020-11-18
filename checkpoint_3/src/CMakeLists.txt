@@ -1,5 +1,6 @@
-find_package(Eigen3 CONFIG REQUIRED)
-message(STATUS "Found Eigen3 ${Eigen3_VERSION}")
+##############################################
+# Here you will need to find the Eigen pacakge
+##############################################
 
 set(
         cmake_course_source_files
@@ -15,4 +16,7 @@ set(
 
 add_library(cmake_course_lib STATIC ${cmake_course_source_files} ${cmake_course_header_files})
 target_include_directories(cmake_course_lib INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(cmake_course_lib PRIVATE Eigen3::Eigen)
+
+########################################################
+# Here you will need to link cmake_course_lib with Eigen
+########################################################

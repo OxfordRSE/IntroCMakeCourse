@@ -337,45 +337,57 @@ Tasks:
 
 # Printing information with `message()`
 
-    name = "Jane Doe"
-    message(STATUS "Hello ${name}")
-
-    -- The C compiler identification is GNU 8.3.0
-    ...
-    -- Hello Jane Doe
-    -- Configuring done
-    -- Generating done
+```cmake
+set(name "Jane Doe")
+message(STATUS "Hello ${name}")
+```
+```
+-- The C compiler identification is GNU 8.3.0
+...
+-- Hello Jane Doe
+-- Configuring done
+-- Generating done
+```
 
 # Options for `message()`
 
-	message(STATUS "A simple message")
+```cmake
+message(STATUS "A simple message")
+```
 
 `STATUS` can be replaced by *e.g.* `WARNING`, `SEND_ERROR`, `FATAL_ERROR`
 depending on the situation.
 
-    message(SEND_ERROR "An error occurred but configure step continues")
+```cmake
+message(SEND_ERROR "An error occurred but configure step continues")
+```
+```
+CMake Error at CMakeLists.txt:2 (message):
+    An error occurred but configure step continues
 
-    CMake Error at CMakeLists.txt:2 (message):
-      An error occurred but configure step continues
-
-    -- Configuring incomplete, errors occurred!
+-- Configuring incomplete, errors occurred!
+```
 
 
-# Finding libraries
+# Finding dependencies
 
 Libraries can be installed in various locations on your system.
 
 CMake makes it easy to link against libraries **without having to know
 where they are installed**:
 
-    find_package(library_name CONFIG REQUIRED)
+```cmake
+find_package(library_name CONFIG REQUIRED)
+```
 
 The above defines a new target (usually named `library_name`) that can now be linked
 against other targets using `target_link_libraries`.
 
 # "config" mode for `find_package`
 
-    find_package(library_name CONFIG REQUIRED)
+```cmake
+find_package(library_name CONFIG REQUIRED)
+```
 
 In "config mode", `find_package` will search for a
 `<PackageName>Config.cmake` file.
@@ -385,9 +397,9 @@ the library is installed).
 
 This is usually given by the library vendor.
 
-# Checkpoint 3
+# Breakout time
 
-A new file `src/functionality_eigen.cpp` depends on the [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page) library for linear algebra.
+Look at Checkpoint 3. A new file `src/functionality_eigen.cpp` depends on the [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page) library for linear algebra.
 
 Task: Using `find_package`, modify the `CMakeLists.txt` in directory `src/` to
 link target `cmake_course_lib` against Eigen.
