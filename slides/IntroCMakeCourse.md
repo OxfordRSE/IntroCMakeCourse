@@ -466,7 +466,11 @@ message(STATUS "Hello ${name}")
 # cmake/file_to_include.cmake
 set(name "Jane Doe")
 message(STATUS "Hello ${name}")
+```
 
+# Adding CMake functionality using `include`
+
+```
 -- Hello Jane Doe
 -- Hello Foo Bar
 -- Configuring done
@@ -477,27 +481,33 @@ message(STATUS "Hello ${name}")
 
 Conditionals...
 
-    if(expression)
-      # Do something
-    else()
-      # Do something else
-    endif()
+```cmake
+if(expression)
+    # Do something
+else()
+    # Do something else
+endif()
+```
 
 and loops:
 
-    set(mylist A B C D)
-    foreach(var IN LISTS mylist)
-      message(${var})
-    endforeach()
+```cmake
+set(mylist A B C D)
+foreach(var IN LISTS mylist)
+    message(${var})
+endforeach()
+```
 
 # Programming CMake: functions
 
 CMake allows the declaration of functions:
 
-    function(add a b)
-      math(EXPR result "{a}+{b}")
-      message("The sum is ${result}")
-    endfunction()
+```cmake
+function(add a b)
+    math(EXPR result "{a}+{b}")
+    message("The sum is ${result}")
+endfunction()
+```
 
 Functions cannot return a value.
 
@@ -510,35 +520,63 @@ A similar notion is CMake *macros*, which does **not** introduce a new scope.
 
 Boolean variables can be declared using `option()`:
 
-    option(WARNINGS_AS_ERRORS "Treat compiler warnings as errors" TRUE)
+```cmake
+option(WARNINGS_AS_ERRORS "Treat compiler warnings as errors" TRUE)
+```
 
 The value of options can be specified at the command line using the
 `-D` syntax:
 
-    cmake -DWARNINGS_AS_ERRORS=FALSE ..
+```cmake
+cmake -DWARNINGS_AS_ERRORS=FALSE ..
+```
 
-Options are a special case of "cache" variable, which value persist
+Options are a special case of "cache" variable, whose value persist
 between CMake runs.
 
 # Built-in CMake variables
 
 CMake provides *a lot* of pre-defined variables which values describe the system.
 
-For instance, the value of `CMAKE_CXX_COMPILER_ID`' can be queried
+For instance, the value of `CMAKE_CXX_COMPILER_ID`{.cmake} can be queried
 to determine which C++ compiler is used.
 
-    if(MSVC)
-        set(PROJECT_WARNINGS ${MSVC_WARNINGS})
-      elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
-        set(PROJECT_WARNINGS ${CLANG_WARNINGS})
-      elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        set(PROJECT_WARNINGS ${GCC_WARNINGS})
-      else()
-        # ...
+```cmake
+if(MSVC)
+    set(PROJECT_WARNINGS ${MSVC_WARNINGS})
+elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+    set(PROJECT_WARNINGS ${CLANG_WARNINGS})
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set(PROJECT_WARNINGS ${GCC_WARNINGS})
+else()
+    # ...
+```
 
 # Using an interface "library" to apply options across targets
 
-TODO
+A useful technique for adding options to targets, for instance adding compiler flags to use with a library, is to create an empty "library", and link that against your other targets.
+
+Let's see how that works, in Checkpoint 5...
+
+# Breakout time
+
+Look at Checkpoint 5. The compiler should now warn us about bad C++. This is encouraged!
+
+Add some bad C++ to `main.cpp`, for instance:
+
+```cpp
+int unused_variable = 0;
+```
+
+Do you get a compiler warning? An error? Try configuring `WARNINGS_AS_ERRORS`:
+
+```bash
+cmake -DWARNINGS_AS_ERRORS=ON ..
+```
+```bash
+cmake -DWARNINGS_AS_ERRORS=OFF ..
+```
+
 
 # That's all, folks
 

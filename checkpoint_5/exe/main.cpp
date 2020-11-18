@@ -26,7 +26,7 @@ int main() {
         std::cout << desc << std::endl;
     }
 
-//    auto x = 1;
+    // int unused_variable = 0;
 
     return 0;
 }
