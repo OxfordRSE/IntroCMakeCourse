@@ -416,7 +416,9 @@ Libraries don't always come with a CMake config file
 CMake can also find the library based on a file `Find<PackageName>.cmake`.
 This behaviour corresponds to using `find_package` with the keyword `MODULE`:
 
-    find_package(library_name MODULE REQUIRED)
+```cmake
+find_package(library_name MODULE REQUIRED)
+```
 
 Such *module files* are typically provided by CMake itself.
 
@@ -430,37 +432,46 @@ E.g. Boost: filesystem, thread, date-time, program-options, numpy...
 
 Most programs only rely on a subset of components
 
-    set(
-      boost_components
-      filesystem
-      chrono
-      )
-    find_package(Boost MODULE REQUIRED COMPONENTS ${boost_components})
+```cmake
+set(boost_components filesystem chrono)
+find_package(Boost MODULE REQUIRED COMPONENTS ${boost_components})
+```
 
 The CMake target for a component is `<PackageName>::<ComponentName>`
 (*e.g.* `Boost::filesystem`).
+
+
+# Breakout time
+
+Look at Checkpoint 4. The executable `exe/main.cpp` depends on the [Boost Program Options](https://www.boost.org/doc/libs/1_74_0/doc/html/program_options.html) library for handling command line arguments.
+
+Task: Using `find_package` in `MODULE` mode, modify the `CMakeLists.txt` in directory `exe/` to
+find and link target `main_executable` against `Boost::program_options`.
+
 
 # Adding CMake functionality using `include`
 
 Any file containing valid CMake syntax can be "included" in the
 current `CMakeLists.txt`:
 
-    # CMakeLists.txt
-    cmake_minimum_required(VERSION 3.13)
-    project(IntroCMakeCourse LANGUAGES CXX)
-    include(to_include.cmake)
+```cmake
+# CMakeLists.txt
+cmake_minimum_required(VERSION 3.13)
+project(IntroCMakeCourse LANGUAGES CXX)
+include(file_to_include.cmake)
 
-    set(name "Foo Bar")
-    message(STATUS "Hello ${name}")
+set(name "Foo Bar")
+message(STATUS "Hello ${name}")
 
-    # cmake/file_to_include.cmake
-    set(name "Jane Doe")
-    message(STATUS "Hello ${name}")
+# cmake/file_to_include.cmake
+set(name "Jane Doe")
+message(STATUS "Hello ${name}")
 
-    -- Hello Jane Doe
-    -- Hello Foo Bar
-    -- Configuring done
-    ...
+-- Hello Jane Doe
+-- Hello Foo Bar
+-- Configuring done
+...
+```
 
 # Programming CMake: conditionals and loops
 

@@ -1,6 +1,10 @@
-find_package(Boost MODULE REQUIRED COMPONENTS program_options)
-message(STATUS "Found Boost ${Boost_VERSION}")
+################################################################
+# Here you will need to find the Boost program options component
+################################################################
 
 add_executable(main_executable main.cpp)
 target_link_libraries(main_executable PRIVATE cmake_course_lib)
-target_link_libraries(main_executable PRIVATE Boost::program_options)
+
+########################################################################
+# Here you will need to link main_executable with Boost::program_options
+########################################################################
