@@ -48,7 +48,7 @@ Tells CMake which version we used, affecting the features available and the inte
 project(IntroCMakeCourse LANGUAGES CXX)
 ```
 
-We have a project called `IntroCMakeCourse`, in the C++ language.
+We have a project called `IntroCMakeCourse`{.cmake}, in the C++ language.
 
 # Configure the compiler
 
@@ -64,7 +64,7 @@ We're using the C++17 language dialect.
 add_executable(main_executable main.cpp)
 ```
 
-There is a program, called `main_executable`, which depends on the source code in `main.cpp`
+There is a program, called `main_executable`{.cmake}, which depends on the source code in `main.cpp`
 
 # Using CMake
 
@@ -120,7 +120,7 @@ This can be particularly useful in automated scripts that may be run on differen
 
 # Setting configuration
 
-You (and users) can override choices made by CMake using the `-D` argument.
+You (and users) can override choices made by CMake using the `-D`{.cmake} argument.
 
 ```bash
 build$ cmake -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-10 ..
@@ -204,7 +204,7 @@ Variables can be dereferenced
 set(another_list ${src_files})
 ```
 
-The value of `another_list` is set to the value of `src_files`.
+The value of `another_list`{.cmake} is set to the value of `src_files`{.cmake}.
 
 Nested example:
 
@@ -235,8 +235,8 @@ Add a new pair of hpp/cpp files that defines a new function.
 CMake allows for a very fine-grained control of target builds, through
 *properties*.
 
-For example, the property `INCLUDE_DIRECTORIES` specifies the list of
-directories to be specified with the compiler switch `-I` (or `/I`).
+For example, the property `INCLUDE_DIRECTORIES`{.cmake} specifies the list of
+directories to be specified with the compiler switch `-I`{.cmake} (or `/I`{.cmake}).
 
 Properties can be set manually like variables, but in general CMake provides
 commands for it:
@@ -253,34 +253,34 @@ target_include_directories(main_executable
 
 # Creating a library
 
-Similar to `add_executable()`:
+Similar to `add_executable()`{.cmake}:
 
 ```cmake
 add_library(my_lib STATIC ${source_files})
 ```
 
-Use `SHARED` instead of `STATIC` to build a shared library: or, if omitted, CMake will pick a default based on the value of the variable `BUILD_SHARED_LIBS`.
+Use `SHARED`{.cmake} instead of `STATIC`{.cmake} to build a shared library: or, if omitted, CMake will pick a default based on the value of the variable `BUILD_SHARED_LIBS`{.cmake}.
 
 # Linking libraries (`PRIVATE`)
 
-Library dependencies can be declared using the `target_link_libraries()` command:
+Library dependencies can be declared using the `target_link_libraries()`{.cmake} command:
 
 ```cmake
 target_link_libraries(another_target PRIVATE my_lib)
 ```
 
-The `PRIVATE` keyword states that `another_target` uses `my_lib` only in its internal
-implementation. Programs using `another_target`{.cmake} don't need to know about `my_lib`.
+The `PRIVATE`{.cmake} keyword states that `another_target`{.cmake} uses `my_lib`{.cmake} only in its internal
+implementation. Programs using `another_target`{.cmake} don't need to know about `my_lib`{.cmake}.
 
 # Linking libraries (`PUBLIC`)
 
 Picture another dependency scenario:
 
--   `another_target` uses `my_lib` in its internal implementation.
--   **and** `another_target` defines some function that take parameters of a type defined
-    in `my_lib`.
+-   `another_target`{.cmake} uses `my_lib`{.cmake} in its internal implementation.
+-   **and** `another_target`{.cmake} defines some function that take parameters of a type defined
+    in `my_lib`{.cmake}.
 
-Programs using `another_target` also must link against `my_lib`:
+Programs using `another_target`{.cmake} also must link against `my_lib`{.cmake}:
 
 ```cmake
 target_link_libraries(another_target PUBLIC my_lib)
@@ -290,7 +290,7 @@ target_link_libraries(another_target PUBLIC my_lib)
 
 Picture another dependency scenario:
 
-- `another_target` only uses `my_lib` in its interface.
+- `another_target`{.cmake} only uses `my_lib`{.cmake} in its interface.
 - **but not** in its internal implementation.
 
 ```cmake
@@ -300,7 +300,7 @@ target_link_libraries(another_target INTERFACE my_lib)
 # Behaviour of target properties across dependencies
 
 Target properties are paired with another property
-`INTERFACE_<PROPERTY>`. For instance
+`INTERFACE_<PROPERTY>`{.cmake}. For instance
 
     INTERFACE_INCLUDE_DIRECTORIES
 
@@ -311,9 +311,9 @@ Example:
 
     target_include_directories(my_lib INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
--   `PRIVATE`: sets `INCLUDE_DIRECTORIES`.
--   `INTERFACE`: sets `INTERFACE_INCLUDE_DIRECTORIES`.
--   `PUBLIC`: sets both.
+-   `PRIVATE`{.cmake}: sets `INCLUDE_DIRECTORIES`{.cmake}.
+-   `INTERFACE`{.cmake}: sets `INTERFACE_INCLUDE_DIRECTORIES`{.cmake}.
+-   `PUBLIC`{.cmake}: sets both.
 
 # Breakout time
 
@@ -355,7 +355,7 @@ message(STATUS "Hello ${name}")
 message(STATUS "A simple message")
 ```
 
-`STATUS` can be replaced by *e.g.* `WARNING`, `SEND_ERROR`, `FATAL_ERROR`
+`STATUS`{.cmake} can be replaced by *e.g.* `WARNING`{.cmake}, `SEND_ERROR`{.cmake}, `FATAL_ERROR`{.cmake}
 depending on the situation.
 
 ```cmake
@@ -380,8 +380,8 @@ where they are installed**:
 find_package(library_name CONFIG REQUIRED)
 ```
 
-The above defines a new target (usually named `library_name`) that can now be linked
-against other targets using `target_link_libraries`.
+The above defines a new target (usually named `library_name`{.cmake}) that can now be linked
+against other targets using `target_link_libraries`{.cmake}.
 
 # "config" mode for `find_package`
 
@@ -389,8 +389,8 @@ against other targets using `target_link_libraries`.
 find_package(library_name CONFIG REQUIRED)
 ```
 
-In "config mode", `find_package` will search for a
-`<PackageName>Config.cmake` file.
+In "config mode", `find_package`{.cmake} will search for a
+`<PackageName>Config.cmake`{.cmake} file.
 
 This file specifies all the information CMake needs (particularly where
 the library is installed).
@@ -401,20 +401,20 @@ This is usually given by the library vendor.
 
 Look at Checkpoint 3. A new file `src/functionality_eigen.cpp` depends on the [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page) library for linear algebra.
 
-Task: Using `find_package`, modify the `CMakeLists.txt` in directory `src/` to
-link target `cmake_course_lib` against Eigen.
+Task: Using `find_package`{.cmake}, modify the `CMakeLists.txt` in directory `src/` to
+link target `cmake_course_lib`{.cmake} against Eigen.
 
 *Hint: Useful instructions can be found at [Using Eigen in CMake Projects](http://eigen.tuxfamily.org/dox/TopicCMakeGuide.html).*
 
-*Note that keyword `NO_MODULE` is equivalent to `CONFIG`*
+Note that keyword `NO_MODULE`{.cmake} is equivalent to `CONFIG`{.cmake}.
 
 # "module" mode for `find_package`
 
 Libraries don't always come with a CMake config file
-`<PackageName>Config.cmake`.
+`<PackageName>Config.cmake`{.cmake}.
 
-CMake can also find the library based on a file `Find<PackageName>.cmake`.
-This behaviour corresponds to using `find_package` with the keyword `MODULE`:
+CMake can also find the library based on a file `Find<PackageName>.cmake`{.cmake}.
+This behaviour corresponds to using `find_package`{.cmake} with the keyword `MODULE`{.cmake}:
 
 ```cmake
 find_package(library_name MODULE REQUIRED)
@@ -437,16 +437,16 @@ set(boost_components filesystem chrono)
 find_package(Boost MODULE REQUIRED COMPONENTS ${boost_components})
 ```
 
-The CMake target for a component is `<PackageName>::<ComponentName>`
-(*e.g.* `Boost::filesystem`).
+The CMake target for a component is `<PackageName>::<ComponentName>`{.cmake}
+(*e.g.* `Boost::filesystem`{.cmake}).
 
 
 # Breakout time
 
 Look at Checkpoint 4. The executable `exe/main.cpp` depends on the [Boost Program Options](https://www.boost.org/doc/libs/1_74_0/doc/html/program_options.html) library for handling command line arguments.
 
-Task: Using `find_package` in `MODULE` mode, modify the `CMakeLists.txt` in directory `exe/` to
-find and link target `main_executable` against `Boost::program_options`.
+Task: Using `find_package`{.cmake} in `MODULE`{.cmake} mode, modify the `CMakeLists.txt` in directory `exe/` to
+find and link target `main_executable`{.cmake} against `Boost::program_options`{.cmake}.
 
 
 # Adding CMake functionality using `include`
@@ -518,14 +518,14 @@ A similar notion is CMake *macros*, which does **not** introduce a new scope.
 
 # Setting options with `option()`
 
-Boolean variables can be declared using `option()`:
+Boolean variables can be declared using `option()`{.cmake}:
 
 ```cmake
 option(WARNINGS_AS_ERRORS "Treat compiler warnings as errors" TRUE)
 ```
 
 The value of options can be specified at the command line using the
-`-D` syntax:
+`-D`{.cmake} syntax:
 
 ```cmake
 cmake -DWARNINGS_AS_ERRORS=FALSE ..
@@ -568,7 +568,7 @@ Add some bad C++ to `main.cpp`, for instance:
 int unused_variable = 0;
 ```
 
-Do you get a compiler warning? An error? Try configuring `WARNINGS_AS_ERRORS`:
+Do you get a compiler warning? An error? Try configuring `WARNINGS_AS_ERRORS`{.cmake}:
 
 ```bash
 cmake -DWARNINGS_AS_ERRORS=ON ..
