@@ -241,10 +241,12 @@ directories to be specified with the compiler switch `-I` (or `/I`).
 Properties can be set manually like variables, but in general CMake provides
 commands for it:
 
-    target_include_directories(main_executable
-		                       PRIVATE
-							   ${CMAKE_CURRENT_SOURCE_DIR}
-	)
+```cmake
+target_include_directories(main_executable
+                            PUBLIC
+                            ${CMAKE_CURRENT_SOURCE_DIR}
+)
+```
 
 *Properties are different from variables!*
 
@@ -253,45 +255,51 @@ commands for it:
 
 Similar to `add_executable()`:
 
-    add_library(my_lib STATIC ${source_files})
+```cmake
+add_library(my_lib STATIC ${source_files})
+```
 
-Use ~SHARED~ instead of ~STATIC~ to build a shared library.
+Use `SHARED` instead of `STATIC` to build a shared library: or, if omitted, CMake will pick a default based on the value of the variable `BUILD_SHARED_LIBS`.
 
 # Linking libraries (`PRIVATE`)
 
 Library dependencies can be declared using the `target_link_libraries()` command:
 
-    target_link_libraries(another_lib PRIVATE my_lib)
+```cmake
+target_link_libraries(another_target PRIVATE my_lib)
+```
 
-The `PRIVATE` keyword states that `another_lib` uses `my_lib` in its internal
-implementation. Programs using `another_lib` don't need to know about `my_lib`.
+The `PRIVATE` keyword states that `another_target` uses `my_lib` only in its internal
+implementation. Programs using `another_target`{.cmake} don't need to know about `my_lib`.
 
 # Linking libraries (`PUBLIC`)
 
 Picture another dependency scenario:
 
--   `another_lib` uses `my_lib` in its internal implementation.
--   **and** `another_lib` defines some function that take parameters of a type defined
+-   `another_target` uses `my_lib` in its internal implementation.
+-   **and** `another_target` defines some function that take parameters of a type defined
     in `my_lib`.
 
-Programs using `another_lib` also must link against `my_lib`:
+Programs using `another_target` also must link against `my_lib`:
 
-    target_link_libraries(another_lib PUBLIC my_lib)
+```cmake
+target_link_libraries(another_target PUBLIC my_lib)
+```
 
 # Link libraries (`INTERFACE`)
 
 Picture another dependency scenario:
 
-- `my_lib` only uses `my_lib` in its interface.
+- `another_target` only uses `my_lib` in its interface.
 - **but not** in its internal implementation.
 
-```
-target_link_libraries(another_lib INTERFACE my_lib)
+```cmake
+target_link_libraries(another_target INTERFACE my_lib)
 ```
 
 # Behaviour of target properties across dependencies
 
-Many (**all?**) target properties are paired with another property
+Target properties are paired with another property
 `INTERFACE_<PROPERTY>`. For instance
 
     INTERFACE_INCLUDE_DIRECTORIES
@@ -307,15 +315,18 @@ Example:
 -   `INTERFACE`: sets `INTERFACE_INCLUDE_DIRECTORIES`.
 -   `PUBLIC`: sets both.
 
-# Checkpoint 2
+# Breakout time
 
-Let's separate the funtionality from the executable itself:
+Let's separate the functionality from the executable itself:
 
-    CMakeLists.txt
-	src/
-      <library>
-	exe/
-	  <executable>
+```bash
+CMakeLists.txt
+src/
+    <library>
+exe/
+    <executable>
+```
+
 Tasks:
 
 1. Modify `src/CMakeLists.txt` so that a static library is created out
